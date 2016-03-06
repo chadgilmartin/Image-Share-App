@@ -1,0 +1,75 @@
+<head>
+  <title>image_share</title>
+</head>
+
+<body>
+	{{> image_add_form}}
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			{{> loginButtons}}
+		</div>
+	</nav>
+	<div class="container js-container" >
+ 	<h1>Welcome to my Image Share app, {{username}}!</h1>
+ 	{{> images}}
+</div> <!-- / container -->
+</body>
+<template name="image_add_form">
+	<div class="fade modal" id="image_add_form">
+		<div class="modal-dialogue">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="title">
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="js-add-image">
+        				<div class="form-group">
+				            <label for="img_src">Image URL:</label>
+				            <input type="text" class="form-control" id="img_src" placeholder="url" name="img_src"/>
+				        </div>
+				        <div class="form-group">
+				        	<label for="img_alt">Image description:</label>
+				         	<textarea class="form-control" id="img_alt" placeholder="Describe the image here" name="img_alt"></textarea>
+				        </div>
+				       	<button class="btn btn-success">save</button>
+				    </form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-warning" data-dismiss="modal">cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+</template>
+
+<template name="images">
+	{{#if currentUser}}
+	<button class="btn btn-success js-show-image-form">Add an image</button>
+	{{/if}}
+	<h3>
+	{{#if filtering_images}}
+		Displaying only images by user {{getFilterUser}}. 
+		<button class="btn btn-warning js-clear-image-filter">Show all images</button>
+	{{/if}}
+	</h3>
+	<div class="row">
+		{{#each images}}
+		<div class="col-xs-12 col-md-3" id="{{_id}}">
+			<div class="thumbnail">
+				<img class="js-image thumbnail-img" src="{{img_src}}" alt="{{img_alt}}"/>
+				<div class="caption">
+					<h3>Thumbnail label</h3>
+					<p>{{img_alt}}</p>
+					<p>User: <a href="#" class="js-set-image-filter">{{getUser createdBy}}</a></p>
+					<p>
+						{{>starsRating mutable=true class="js-rate-image" id=_id}}
+					</p>
+					<button class="js-del-image btn btn-warning">Delete</button>
+				</div>
+			</div>
+		</div> <!-- / col-->
+		{{/each}}
+	</div> <!-- / row -->
+
+</template>
